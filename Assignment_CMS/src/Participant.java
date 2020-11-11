@@ -10,11 +10,13 @@ public class Participant {
         private String phone;
         private String pw;
         private int status;
-        private ArrayList<Contestant> listContestants = new ArrayList<>();
-        private ArrayList<Organizer> listOrganizers = new ArrayList<>();
-        private ArrayList<Problem> listProblems = new ArrayList<>();
+        private Contest test = new Contest();
+        public ArrayList<Contestant> listContestants = new ArrayList<>();
+        public ArrayList<Organizer> listOrganizers = new ArrayList<>();
+        public ArrayList<Problem> listProblems = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
-
+        private int index;
+        
         public Participant() {
         }
 
@@ -82,8 +84,15 @@ public class Participant {
                 this.sc = sc;
         }
 
+        public int getIndex() {
+                return index;
+        }
+
+        public void setIndex(int index) {
+                this.index = index;
+        }
+
         public void loadFiles() {
-                System.out.println("Hello");
         }
 
         public void run() {
@@ -94,22 +103,23 @@ public class Participant {
                         System.out.println("Wrong ID or password. Please try to log in again.");
                         t = f1();
                 }
-                if (t == 1) {
-                        Contestant temp = new Contestant();
+                index = 0;
+                if (t == 1) {                        
                         for (Contestant i : listContestants) {
                                 if (i.getStatus() == 1) {
-                                        temp = i;
+                                        break;
                                 }
+                                index++;
                         }
-                        temp.run();
+                        listContestants.get(index).run();
                 } else if (t == 2) {
-                        Organizer temp = new Organizer();
                         for (Organizer i : listOrganizers) {
                                 if (i.getStatus() == 1) {
-                                        temp = i;
+                                        break;
                                 }
+                                index++;
                         }
-                        temp.run();
+                        listOrganizers.get(index).run();
                 }
 
         }
@@ -136,5 +146,15 @@ public class Participant {
                 }
                 return 0;
         }
+
+        void f3() {
+                System.out.println(test);
+        }
+
+        void f4() {
+                System.out.println(listContestants);
+        }
+
+        
 
 }
