@@ -5,12 +5,12 @@ import java.util.Scanner;
 
 public class Participant {
 
-    private String id;
-    private String name;
+    String id;
+    public String name;
     private String email;
     private String phone;
     private String pw;
-    //?
+    //Log in => status = 1. Log out => status = 0
     private int status;
     //?
     private Contest test = new Contest();
@@ -43,7 +43,7 @@ public class Participant {
         }
     }
     
-    private String generateID() {
+    public String generateID() {
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'
         int length = 10;
@@ -225,6 +225,13 @@ public class Participant {
     void displayContestants() {
         System.out.println(listContestants);
     }
+
+    void displayScoreboard() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+    
 
     
 
