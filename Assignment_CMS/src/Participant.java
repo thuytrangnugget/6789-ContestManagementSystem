@@ -1,5 +1,12 @@
 
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Participant {
@@ -26,6 +33,11 @@ public class Participant {
                 this.email = email;
                 this.phone = phone;
                 this.pw = pw;
+        }
+
+        @Override
+        public String toString() {
+                return "Participant{" + "id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", pw=" + pw + '}';
         }
 
         public String getId() {
@@ -91,8 +103,146 @@ public class Participant {
         public void setIndex(int index) {
                 this.index = index;
         }
-
+        public void initialData() {
+                String filename = "contestant.dat";               
+                try {
+                        File f = new File(filename);
+                        FileOutputStream fos = new FileOutputStream(f);
+                        ObjectOutputStream oos = new ObjectOutputStream(fos);
+                        Contestant temp = new Contestant();
+                        temp.setEmail("longnvha140412@fpt.edu.vn");
+                        temp.setId("HA140412");
+                        temp.setName("Nguyen Van Long");
+                        temp.setPw("HA140412");
+                        temp.setPhone("0123456789");
+                        oos.writeObject(temp);
+//                        temp.setEmail("minhnhha150125@fpt.edu.vn");
+//                        temp.setId("HA150125");
+//                        temp.setName("Nguyen Hoang Minh");
+//                        temp.setPw("HA150125");
+//                        temp.setPhone("0123456789");
+//                        oos.writeObject(temp);
+                        oos.flush();
+                        oos.close();
+                        fos.close();
+                } catch (Exception e) {
+                        e.printStackTrace();
+                        e.getMessage();
+                }
+                filename = "organizer.dat";               
+                try {
+                        File f = new File(filename);
+                        FileOutputStream fos = new FileOutputStream(f);
+                        ObjectOutputStream oos = new ObjectOutputStream(fos);
+                        Organizer temp = new Organizer();
+//                        temp.setEmail("longnvha140412@fpt.edu.vn");
+//                        temp.setId("HA140412");
+//                        temp.setName("Nguyen Van Long");
+//                        temp.setPw("HA140412");
+//                        temp.setPhone("0123456789");
+//                        oos.writeObject(temp);
+                        temp.setEmail("minhnhha150125@fpt.edu.vn");
+                        temp.setId("HA150125");
+                        temp.setName("Nguyen Hoang Minh");
+                        temp.setPw("HA150125");
+                        temp.setPhone("0123456789");
+                        oos.writeObject(temp);
+                        oos.flush();
+                        oos.close();
+                        fos.close();
+                } catch (Exception e) {
+                        e.printStackTrace();
+                        e.getMessage();
+                }
+                filename = "QBs.dat";
+                try {
+                        File f = new File(filename);
+                        FileOutputStream fos = new FileOutputStream(f);
+                        ObjectOutputStream oos = new ObjectOutputStream(fos);
+                        Problem temp = new Problem();
+                        temp.setId("Q1");
+                        temp.setName("Calculus");
+                        temp.setShortDesc("Q1");
+                        temp.setLongDesc("Q1");
+                        temp.setCategory("Calculus");
+                        temp.setWeight(1);
+                        temp.setAuthor("Nguyen Hoang Minh");
+                        temp.setDate("12/11/2020");         
+                        oos.writeObject(temp);
+                        oos.flush();
+                        oos.close();
+                        fos.close();
+                } catch (Exception e) {
+                        e.printStackTrace();
+                        e.getMessage();
+                }
+                
+        }
+        
         public void loadFiles() {
+                initialData();
+                String filename = "contestant.dat";
+                try {
+                        File f = new File(filename);
+                        FileInputStream fis = new FileInputStream(f);
+                        ObjectInputStream ois = new ObjectInputStream(fis);
+                        while (true) {
+                                try {
+                                        Contestant pX = (Contestant) ois.readObject();
+                                        listContestants.add(pX);
+                                        listContestants.add(pX);
+                                } catch (EOFException e) {
+                                        break;
+                                }
+                        }
+                        System.out.println(listContestants.size());
+                        for (Contestant i: listContestants) System.out.println(i); 
+                        fis.close();
+                        ois.close();
+                } catch (Exception e) {
+                        e.printStackTrace();
+                        e.getMessage();
+                }
+
+                filename = "organizer.dat";
+                try {
+                        File f = new File(filename);
+                        FileInputStream fis = new FileInputStream(f);
+                        ObjectInputStream ois = new ObjectInputStream(fis);
+                        while (true) {
+                                try {
+                                        Organizer pX = (Organizer) ois.readObject();
+                                        listOrganizers.add(pX);
+                                } catch (EOFException e) {
+                                        break;
+                                }
+                        }
+                        fis.close();
+                        ois.close();
+                } catch (Exception e) {
+                        e.printStackTrace();
+                        e.getMessage();
+                }
+                filename = "QBs.dat";
+                try {
+                        File f = new File(filename);
+                        FileInputStream fis = new FileInputStream(f);
+                        ObjectInputStream ois = new ObjectInputStream(fis);
+                        while (true) {
+                                try {
+                                        Problem pX = (Problem) ois.readObject();
+                                        listProblems.add(pX);
+                                } catch (EOFException e) {
+                                        break;
+                                }
+                        }
+                        fis.close();
+                        ois.close();
+                } catch (Exception e) {
+                        e.printStackTrace();
+                        e.getMessage();
+                }
+                
         }
 
         public void run() {
@@ -127,18 +277,22 @@ public class Participant {
         public int f1() {
                 System.out.println("Please login");
                 System.out.print("Enter your ID: ");
-                String enteredId = sc.nextLine();
+                String enteredId = new String(); 
+                enteredId = sc.nextLine();
                 System.out.print("Enter your password: ");
-                String enteredPw = sc.nextLine();
+                String enteredPw = new String(); 
+                enteredPw = sc.nextLine();
                 for (Contestant i : listContestants) {
-                        if (enteredPw.compareTo(i.getId()) == 0 && enteredPw.compareTo(i.getPw()) == 0) {
+                        System.out.println(i.getId());
+                        System.out.println(i.getPw());
+                        if (enteredId.compareTo(i.getId()) == 0 && enteredPw.compareTo(i.getPw()) == 0) {
                                 i.setStatus(1);
                                 System.out.println("Welcome Contestant " + i.getName() + ".");
                                 return 1;
                         }
                 }
                 for (Organizer i : listOrganizers) {
-                        if (enteredPw.compareTo(i.getId()) == 0 && enteredPw.compareTo(i.getPw()) == 0) {
+                        if (enteredId.compareTo(i.getId()) == 0 && enteredPw.compareTo(i.getPw()) == 0) {
                                 i.setStatus(1);
                                 System.out.println("Welcome Organizer " + i.getName() + ".");
                                 return 2;
