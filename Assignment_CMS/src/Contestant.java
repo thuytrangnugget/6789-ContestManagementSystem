@@ -12,9 +12,8 @@ public class Contestant extends Participant implements Serializable {
         public Contestant() {
         }
 
-        public Contestant(String id, String name, String email, String phone, String pw, int rank) {
+        public Contestant(String id, String name, String email, String phone, String pw) {
                 super(id, name, email, phone, pw);
-                this.rank = rank;
         }
 
         public int getRank() {
@@ -38,9 +37,9 @@ public class Contestant extends Participant implements Serializable {
                         if (choice == 1) {
                                 f2();
                         } else if (choice == 2) {
-                                super.f3();
+                                //super.f3();
                         } else if (choice == 3) {
-                                super.f4();
+                                //super.f4();
                         } else if (choice == 0) {
                                 listContestants.get(super.getIndex()).setStatus(0);       
                                 System.out.println("Thanks for using our CMS.");
@@ -75,8 +74,7 @@ public class Contestant extends Participant implements Serializable {
 
         @Override
         public String toString() {
-                super.toString();
-                return "Contestant{" + "rank=" + rank + '}';
+                return "Contestant{" + "id=" + super.getId() + ", name=" + super.getName() + ", email=" + super.getEmail() + ", phone=" + super.getPhone() + ", pw=" + super.getPw() + '}';
         }
 
 }

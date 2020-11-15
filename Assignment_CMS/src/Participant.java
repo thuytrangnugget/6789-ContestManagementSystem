@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -18,21 +19,45 @@ public class Participant {
         private String pw;
         private int status;
         private Contest test = new Contest();
-        public ArrayList<Contestant> listContestants = new ArrayList<>();
-        public ArrayList<Organizer> listOrganizers = new ArrayList<>();
-        public ArrayList<Problem> listProblems = new ArrayList<>();
+        public ArrayList<Contestant> listContestants = new ArrayList<Contestant>();
+        public ArrayList<Organizer> listOrganizers = new ArrayList<Organizer>();
+        public ArrayList<Problem> listProblems = new ArrayList<Problem>();
         Scanner sc = new Scanner(System.in);
         private int index;
-        
+        private static final long serialVersionUID = 1L;
+
         public Participant() {
+//                id = generateID();
+//                name = "No name";
+//                email = "noemail@noreply.com";
+//                phone = "No phone";
+//                pw = "no pw";
         }
 
         public Participant(String id, String name, String email, String phone, String pw) {
-                this.id = id;
-                this.name = name;
-                this.email = email;
-                this.phone = phone;
-                this.pw = pw;
+                try {
+                        this.id = generateID();
+                        this.name = name;
+                        this.email = email;
+                        this.phone = phone;
+                        this.pw = pw;
+                } catch (NullPointerException e) {
+                        System.out.println("fields cannot be null");
+                }
+        }
+
+        public String generateID() {
+                int leftLimit = 48; // numeral '0'
+                int rightLimit = 122; // letter 'z'
+                int length = 10;
+                Random ID = new Random();
+
+                String generatedString = ID.ints(leftLimit, rightLimit + 1)
+                        .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                        .limit(length)
+                        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                        .toString();
+                return generatedString;
         }
 
         @Override
@@ -103,8 +128,9 @@ public class Participant {
         public void setIndex(int index) {
                 this.index = index;
         }
+
         public void initialData() {
-                String filename = "contestant.dat";               
+                String filename = "contestant.txt";
                 try {
                         File f = new File(filename);
                         FileOutputStream fos = new FileOutputStream(f);
@@ -116,12 +142,6 @@ public class Participant {
                         temp.setPw("HA140412");
                         temp.setPhone("0123456789");
                         oos.writeObject(temp);
-//                        temp.setEmail("minhnhha150125@fpt.edu.vn");
-//                        temp.setId("HA150125");
-//                        temp.setName("Nguyen Hoang Minh");
-//                        temp.setPw("HA150125");
-//                        temp.setPhone("0123456789");
-//                        oos.writeObject(temp);
                         oos.flush();
                         oos.close();
                         fos.close();
@@ -129,18 +149,12 @@ public class Participant {
                         e.printStackTrace();
                         e.getMessage();
                 }
-                filename = "organizer.dat";               
+                filename = "organizer.txt";
                 try {
                         File f = new File(filename);
                         FileOutputStream fos = new FileOutputStream(f);
                         ObjectOutputStream oos = new ObjectOutputStream(fos);
                         Organizer temp = new Organizer();
-//                        temp.setEmail("longnvha140412@fpt.edu.vn");
-//                        temp.setId("HA140412");
-//                        temp.setName("Nguyen Van Long");
-//                        temp.setPw("HA140412");
-//                        temp.setPhone("0123456789");
-//                        oos.writeObject(temp);
                         temp.setEmail("minhnhha150125@fpt.edu.vn");
                         temp.setId("HA150125");
                         temp.setName("Nguyen Hoang Minh");
@@ -154,7 +168,7 @@ public class Participant {
                         e.printStackTrace();
                         e.getMessage();
                 }
-                filename = "QBs.dat";
+                filename = "QBs.txt";
                 try {
                         File f = new File(filename);
                         FileOutputStream fos = new FileOutputStream(f);
@@ -167,7 +181,7 @@ public class Participant {
                         temp.setCategory("Calculus");
                         temp.setWeight(1);
                         temp.setAuthor("Nguyen Hoang Minh");
-                        temp.setDate("12/11/2020");         
+                        temp.setDate("12/11/2020");
                         oos.writeObject(temp);
                         oos.flush();
                         oos.close();
@@ -176,42 +190,44 @@ public class Participant {
                         e.printStackTrace();
                         e.getMessage();
                 }
-                
         }
-        
+
         public void loadFiles() {
                 initialData();
-                String filename = "contestant.dat";
+                String filename = "contestant.txt";
                 try {
                         File f = new File(filename);
                         FileInputStream fis = new FileInputStream(f);
                         ObjectInputStream ois = new ObjectInputStream(fis);
                         while (true) {
                                 try {
-                                        Contestant pX = (Contestant) ois.readObject();
+                                        Contestant pX = new Contestant();
+                                        pX = (Contestant) ois.readObject();
                                         listContestants.add(pX);
-                                        listContestants.add(pX);
+                                        System.out.println("after added, size of listContestants = " + listContestants.size());
+                                        for (Contestant i : listContestants) {
+                                                System.out.println(i);
+                                        }
                                 } catch (EOFException e) {
                                         break;
                                 }
                         }
-                        System.out.println(listContestants.size());
-                        for (Contestant i: listContestants) System.out.println(i); 
                         fis.close();
                         ois.close();
                 } catch (Exception e) {
                         e.printStackTrace();
                         e.getMessage();
                 }
-
-                filename = "organizer.dat";
+                
+                filename = "organizer.txt";
                 try {
                         File f = new File(filename);
                         FileInputStream fis = new FileInputStream(f);
                         ObjectInputStream ois = new ObjectInputStream(fis);
                         while (true) {
                                 try {
-                                        Organizer pX = (Organizer) ois.readObject();
+                                        Organizer pX = new Organizer();
+                                        pX = (Organizer) ois.readObject();
                                         listOrganizers.add(pX);
                                 } catch (EOFException e) {
                                         break;
@@ -223,18 +239,24 @@ public class Participant {
                         e.printStackTrace();
                         e.getMessage();
                 }
-                filename = "QBs.dat";
+                
+                filename = "QBs.txt";
                 try {
                         File f = new File(filename);
                         FileInputStream fis = new FileInputStream(f);
                         ObjectInputStream ois = new ObjectInputStream(fis);
                         while (true) {
                                 try {
-                                        Problem pX = (Problem) ois.readObject();
+                                        Problem pX = new Problem();
+                                        pX = (Problem) ois.readObject();
                                         listProblems.add(pX);
                                 } catch (EOFException e) {
                                         break;
                                 }
+                        }
+                        System.out.println("outside trycatch, size of listProblems = " + listProblems.size());
+                        for (Problem i : listProblems) {
+                                System.out.println(i);
                         }
                         fis.close();
                         ois.close();
@@ -242,7 +264,7 @@ public class Participant {
                         e.printStackTrace();
                         e.getMessage();
                 }
-                
+
         }
 
         public void run() {
@@ -254,7 +276,7 @@ public class Participant {
                         t = f1();
                 }
                 index = 0;
-                if (t == 1) {                        
+                if (t == 1) {
                         for (Contestant i : listContestants) {
                                 if (i.getStatus() == 1) {
                                         break;
@@ -277,14 +299,12 @@ public class Participant {
         public int f1() {
                 System.out.println("Please login");
                 System.out.print("Enter your ID: ");
-                String enteredId = new String(); 
+                String enteredId = new String();
                 enteredId = sc.nextLine();
                 System.out.print("Enter your password: ");
-                String enteredPw = new String(); 
+                String enteredPw = new String();
                 enteredPw = sc.nextLine();
                 for (Contestant i : listContestants) {
-                        System.out.println(i.getId());
-                        System.out.println(i.getPw());
                         if (enteredId.compareTo(i.getId()) == 0 && enteredPw.compareTo(i.getPw()) == 0) {
                                 i.setStatus(1);
                                 System.out.println("Welcome Contestant " + i.getName() + ".");
@@ -308,7 +328,5 @@ public class Participant {
         void f4() {
                 System.out.println(listContestants);
         }
-
-        
 
 }

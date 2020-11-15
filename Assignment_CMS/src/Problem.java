@@ -3,7 +3,7 @@ import java.io.Serializable;
 import java.util.Comparator;
 
 
-public class Problem implements Serializable{
+public class Problem implements Serializable {
         private String id;
         private String name;
         private String shortDesc;
