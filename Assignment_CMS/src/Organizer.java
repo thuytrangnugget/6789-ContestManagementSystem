@@ -1,8 +1,10 @@
 
+import java.io.Serializable;
 import java.util.Collections;
 
-public class Organizer extends Participant {
-
+public class Organizer extends Participant implements Serializable {
+        private static final long serialVersionUID = 1L;
+        
         public Organizer() {
         }
 

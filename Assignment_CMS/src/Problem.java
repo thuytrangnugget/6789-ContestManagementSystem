@@ -1,8 +1,9 @@
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 
-public class Problem {
+public class Problem implements Serializable{
         private String id;
         private String name;
         private String shortDesc;
@@ -11,7 +12,8 @@ public class Problem {
         private double weight;
         private String author;
         private String date;
-
+        private static final long serialVersionUID = 1L;
+        
         public String getId() {
                 return id;
         }
