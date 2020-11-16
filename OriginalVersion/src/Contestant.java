@@ -60,7 +60,7 @@ public class Contestant implements Serializable {
 
         @Override
         public String toString() {
-                return "Contestant{" + "id=" + id + ", name=" + name + '}';
+                return "<Contestant> |" + " ID " + id + " | NAME " + name + " | EMAIL " + email + " | PHONE " + phone + " |";
         }
         
         

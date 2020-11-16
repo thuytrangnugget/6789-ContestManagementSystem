@@ -20,7 +20,7 @@ public class Host {
 
         Scanner sc = new Scanner(System.in);
 
-        public boolean validateName(String s) {
+        private boolean validateName(String s) {
                 for (int i = 0; i < s.length(); i++) {
                         if (!Character.isLetter(s.charAt(i)) && s.charAt(i) != ' ') {
                                 return false;
@@ -29,8 +29,8 @@ public class Host {
                 return true;
         }
 
-        public boolean validateEmail(String s) {
-                if (!s.contains("@") || s.contains(" ") || !Character.isLetter(s.charAt(0))) {
+        private boolean validateEmail(String s) {
+                if (!s.contains("@") || s.contains(" ") || !Character.isLetter(s.charAt(0)) || !Character.isLetter(s.charAt(s.length()-1))) {
                         return false;
                 }
                 for (int i = 0; i < s.length(); i++) {
@@ -44,7 +44,7 @@ public class Host {
                 return true;
         }
 
-        public boolean validatePhoneNumber(String s) {
+        private boolean validatePhoneNumber(String s) {
                 if (s.charAt(0) != '0' || s.length() > 11) {
                         return false;
                 }
@@ -56,7 +56,7 @@ public class Host {
                 return true;
         }
 
-        public boolean validateDouble(String s) {
+        private boolean validateDouble(String s) {
                 for (int i = 0; i < s.length(); i++) {
                         if (!Character.isDigit(s.charAt(i)) && s.charAt(i) != ',' && s.charAt(i) != '.') {
                                 return false;
@@ -65,47 +65,110 @@ public class Host {
                 return true;
         }
 
-        public String getTime() {
+        private String getTime() {
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
                 return sdf.format(timestamp);
         }
 
-        public String getRandomIdContestant() {
+        private String getRandomIdContestant() {
                 String res = "HE";
                 Random rand = new Random();
                 res += 100000 + rand.nextInt(900000);
                 return res;
         }
 
-        public String getRandomIdProblem() {
+        private String getRandomIdProblem() {
                 Random rand = new Random();
                 return "Q" + (100000 + rand.nextInt(900000));
         }
 
-        public String getRandomIdContest() {
+        private String getRandomIdContest() {
                 Random rand = new Random();
                 return "T" + (100000 + rand.nextInt(900000));
         }
 
-        public void initialFileContestant() {
+        private void initialFileContestant() {
                 String filename = "contestant.dat";
                 try {
                         File f = new File(filename);
                         FileOutputStream fos = new FileOutputStream(f);
                         ObjectOutputStream oos = new ObjectOutputStream(fos);
                         Contestant temp = new Contestant();
-                        temp.setEmail("longnvha140412@fpt.edu.vn");
+                        temp.setEmail("LongNVHA140412@fpt.edu.vn");
                         temp.setId(getRandomIdContestant());
                         temp.setName("Nguyen Van Long");
                         temp.setPw("HA140412");
                         temp.setPhone("0123456789");
                         oos.writeObject(temp);
                         temp = new Contestant();
-                        temp.setEmail("longnvha140412@fpt.edu.vn");
+                        temp.setEmail("BaoDGHE130033@fpt.edu.vn");
                         temp.setId(getRandomIdContestant());
-                        temp.setName("Nguyen Van Long");
-                        temp.setPw("HA140412");
+                        temp.setName("Dieu Gia Bao");
+                        temp.setPw("HE130033");
+                        temp.setPhone("0123456789");
+                        oos.writeObject(temp);
+                        temp = new Contestant();
+                        temp.setEmail("AnhNLVHE140139@fpt.edu.vn");
+                        temp.setId(getRandomIdContestant());
+                        temp.setName("Nguyen Le Vu Anh");
+                        temp.setPw("HE140139");
+                        temp.setPhone("0123456789");
+                        oos.writeObject(temp);
+                        temp = new Contestant();
+                        temp.setEmail("AnhNLVHE140139@fpt.edu.vn");
+                        temp.setId(getRandomIdContestant());
+                        temp.setName("Nguyen Le Vu Anh");
+                        temp.setPw("HE140139");
+                        temp.setPhone("0123456789");
+                        oos.writeObject(temp);
+                        temp = new Contestant();
+                        temp.setEmail("LongTNHE140627@fpt.edu.vn");
+                        temp.setId(getRandomIdContestant());
+                        temp.setName("Trinh Ngoc Long");
+                        temp.setPw("HE140627");
+                        temp.setPhone("0123456789");
+                        oos.writeObject(temp);
+                        temp = new Contestant();
+                        temp.setEmail("AnVTTHE140688@fpt.edu.vn");
+                        temp.setId(getRandomIdContestant());
+                        temp.setName("Vu Tran Thai An");
+                        temp.setPw("HE140688");
+                        temp.setPhone("0123456789");
+                        oos.writeObject(temp);
+                        temp = new Contestant();
+                        temp.setEmail("ManhTDHE140824@fpt.edu.vn");
+                        temp.setId(getRandomIdContestant());
+                        temp.setName("Tran Duy Manh");
+                        temp.setPw("HE140824");
+                        temp.setPhone("0123456789");
+                        oos.writeObject(temp);
+                        temp = new Contestant();
+                        temp.setEmail("HoaHVHE140875@fpt.edu.vn");
+                        temp.setId(getRandomIdContestant());
+                        temp.setName("Hoang Van Hoa");
+                        temp.setPw("HE140875");
+                        temp.setPhone("0123456789");
+                        oos.writeObject(temp);
+                        temp = new Contestant();
+                        temp.setEmail("HuyHMHE140954@fpt.edu.vn");
+                        temp.setId(getRandomIdContestant());
+                        temp.setName("Hoang Minh Huy");
+                        temp.setPw("HE140954");
+                        temp.setPhone("0123456789");
+                        oos.writeObject(temp);
+                        temp = new Contestant();
+                        temp.setEmail("AnhTTHE141110@fpt.edu.vn");
+                        temp.setId(getRandomIdContestant());
+                        temp.setName("Tran Tuan Anh");
+                        temp.setPw("HE141110");
+                        temp.setPhone("0123456789");
+                        oos.writeObject(temp);
+                        temp = new Contestant();
+                        temp.setEmail("DuyPNHE141250@fpt.edu.vn");
+                        temp.setId(getRandomIdContestant());
+                        temp.setName("Phung Nam Duy");
+                        temp.setPw("HE141250");
                         temp.setPhone("0123456789");
                         oos.writeObject(temp);
                         oos.flush();
@@ -117,7 +180,7 @@ public class Host {
                 }
         }
 
-        public void initialFileProblem() {
+        private void initialFileProblem() {
                 String filename = "QBs.dat";
                 try {
                         File f = new File(filename);
@@ -125,8 +188,8 @@ public class Host {
                         ObjectOutputStream oos = new ObjectOutputStream(fos);
                         Problem temp = new Problem();
                         temp.setId(getRandomIdProblem());
-                        temp.setName("Calculus");
-                        temp.setShortDesc("Q1");
+                        temp.setName("Q1");
+                        temp.setShortDesc("Calculus");
                         temp.setFullDesc("Q1");
                         temp.setCategory("Calculus");
                         temp.setWeight(1);
@@ -135,42 +198,192 @@ public class Host {
                         oos.writeObject(temp);
                         temp = new Problem();
                         temp.setId(getRandomIdProblem());
-                        temp.setName("Geometric");
-                        temp.setShortDesc("Q2");
+                        temp.setName("Q2");
+                        temp.setShortDesc("Geometric");
                         temp.setFullDesc("Q2");
                         temp.setCategory("Geometric");
-                        temp.setWeight(1);
-                        temp.setAuthor("Nguyen Hoang Minh");
+                        temp.setWeight(2);
+                        temp.setAuthor("Phan Anh");
                         temp.setDateCreated(getTime());
                         oos.writeObject(temp);
                         temp = new Problem();
                         temp.setId(getRandomIdProblem());
-                        temp.setName("Greedy");
-                        temp.setShortDesc("Q3");
+                        temp.setName("Q3");
+                        temp.setShortDesc("Greedy");
                         temp.setFullDesc("Q3");
                         temp.setCategory("Greedy");
-                        temp.setWeight(1);
-                        temp.setAuthor("Nguyen Hoang Minh");
+                        temp.setWeight(3);
+                        temp.setAuthor("Nguyen Khanh Quan");
                         temp.setDateCreated(getTime());
                         oos.writeObject(temp);
                         temp = new Problem();
                         temp.setId(getRandomIdProblem());
-                        temp.setName("DP");
-                        temp.setShortDesc("Q4");
+                        temp.setName("Q4");
+                        temp.setShortDesc("DP");
                         temp.setFullDesc("Q4");
                         temp.setCategory("DP");
-                        temp.setWeight(1);
+                        temp.setWeight(4);
+                        temp.setAuthor("Duong Thuy Trang");
+                        temp.setDateCreated(getTime());
+                        oos.writeObject(temp);
+                        temp = new Problem();
+                        temp.setId(getRandomIdProblem());
+                        temp.setName("Q5");
+                        temp.setShortDesc("Graph");
+                        temp.setFullDesc("Q5");
+                        temp.setCategory("Graph");
+                        temp.setWeight(5);
+                        temp.setAuthor("Le Tuan Hung");
+                        temp.setDateCreated(getTime());
+                        oos.writeObject(temp);
+                        temp = new Problem();
+                        temp.setId(getRandomIdProblem());
+                        temp.setName("Q6");
+                        temp.setShortDesc("Calculus");
+                        temp.setFullDesc("Q6");
+                        temp.setCategory("Calculus");
+                        temp.setWeight(6);
                         temp.setAuthor("Nguyen Hoang Minh");
                         temp.setDateCreated(getTime());
                         oos.writeObject(temp);
                         temp = new Problem();
                         temp.setId(getRandomIdProblem());
-                        temp.setName("Graph");
-                        temp.setShortDesc("Q5");
-                        temp.setFullDesc("Q5");
+                        temp.setName("Q7");
+                        temp.setShortDesc("Geometric");
+                        temp.setFullDesc("Q7");
+                        temp.setCategory("Geometric");
+                        temp.setWeight(7);
+                        temp.setAuthor("Phan Anh");
+                        temp.setDateCreated(getTime());
+                        oos.writeObject(temp);
+                        temp = new Problem();
+                        temp.setId(getRandomIdProblem());
+                        temp.setName("Q8");
+                        temp.setShortDesc("Greedy");
+                        temp.setFullDesc("Q8");
+                        temp.setCategory("Greedy");
+                        temp.setWeight(8);
+                        temp.setAuthor("Nguyen Khanh Quan");
+                        temp.setDateCreated(getTime());
+                        oos.writeObject(temp);
+                        temp = new Problem();
+                        temp.setId(getRandomIdProblem());
+                        temp.setName("Q9");
+                        temp.setShortDesc("DP");
+                        temp.setFullDesc("Q9");
+                        temp.setCategory("DP");
+                        temp.setWeight(9);
+                        temp.setAuthor("Duong Thuy Trang");
+                        temp.setDateCreated(getTime());
+                        oos.writeObject(temp);
+                        temp = new Problem();
+                        temp.setId(getRandomIdProblem());
+                        temp.setName("Q10");
+                        temp.setShortDesc("Graph");
+                        temp.setFullDesc("Q10");
                         temp.setCategory("Graph");
-                        temp.setWeight(1);
+                        temp.setWeight(10);
+                        temp.setAuthor("Le Tuan Hung");
+                        temp.setDateCreated(getTime());
+                        oos.writeObject(temp);
+                        temp = new Problem();
+                        temp.setId(getRandomIdProblem());
+                        temp.setName("Q11");
+                        temp.setShortDesc("Calculus");
+                        temp.setFullDesc("Q11");
+                        temp.setCategory("Calculus");
+                        temp.setWeight(11);
                         temp.setAuthor("Nguyen Hoang Minh");
+                        temp.setDateCreated(getTime());
+                        oos.writeObject(temp);
+                        temp = new Problem();
+                        temp.setId(getRandomIdProblem());
+                        temp.setName("Q12");
+                        temp.setShortDesc("Geometric");
+                        temp.setFullDesc("Q12");
+                        temp.setCategory("Geometric");
+                        temp.setWeight(12);
+                        temp.setAuthor("Phan Anh");
+                        temp.setDateCreated(getTime());
+                        oos.writeObject(temp);
+                        temp = new Problem();
+                        temp.setId(getRandomIdProblem());
+                        temp.setName("Q13");
+                        temp.setShortDesc("Greedy");
+                        temp.setFullDesc("Q13");
+                        temp.setCategory("Greedy");
+                        temp.setWeight(13);
+                        temp.setAuthor("Nguyen Khanh Quan");
+                        temp.setDateCreated(getTime());
+                        oos.writeObject(temp);
+                        temp = new Problem();
+                        temp.setId(getRandomIdProblem());
+                        temp.setName("Q14");
+                        temp.setShortDesc("DP");
+                        temp.setFullDesc("Q14");
+                        temp.setCategory("DP");
+                        temp.setWeight(14);
+                        temp.setAuthor("Duong Thuy Trang");
+                        temp.setDateCreated(getTime());
+                        oos.writeObject(temp);
+                        temp = new Problem();
+                        temp.setId(getRandomIdProblem());
+                        temp.setName("Q15");
+                        temp.setShortDesc("Graph");
+                        temp.setFullDesc("Q15");
+                        temp.setCategory("Graph");
+                        temp.setWeight(15);
+                        temp.setAuthor("Le Tuan Hung");
+                        temp.setDateCreated(getTime());
+                        oos.writeObject(temp);
+                        temp = new Problem();
+                        temp.setId(getRandomIdProblem());
+                        temp.setName("Q16");
+                        temp.setShortDesc("Calculus");
+                        temp.setFullDesc("Q16");
+                        temp.setCategory("Calculus");
+                        temp.setWeight(16);
+                        temp.setAuthor("Nguyen Hoang Minh");
+                        temp.setDateCreated(getTime());
+                        oos.writeObject(temp);
+                        temp = new Problem();
+                        temp.setId(getRandomIdProblem());
+                        temp.setName("Q17");
+                        temp.setShortDesc("Geometric");
+                        temp.setFullDesc("Q17");
+                        temp.setCategory("Geometric");
+                        temp.setWeight(17);
+                        temp.setAuthor("Phan Anh");
+                        temp.setDateCreated(getTime());
+                        oos.writeObject(temp);
+                        temp = new Problem();
+                        temp.setId(getRandomIdProblem());
+                        temp.setName("Q18");
+                        temp.setShortDesc("Greedy");
+                        temp.setFullDesc("Q18");
+                        temp.setCategory("Greedy");
+                        temp.setWeight(18);
+                        temp.setAuthor("Nguyen Khanh Quan");
+                        temp.setDateCreated(getTime());
+                        oos.writeObject(temp);
+                        temp = new Problem();
+                        temp.setId(getRandomIdProblem());
+                        temp.setName("Q19");
+                        temp.setShortDesc("DP");
+                        temp.setFullDesc("Q19");
+                        temp.setCategory("DP");
+                        temp.setWeight(19);
+                        temp.setAuthor("Duong Thuy Trang");
+                        temp.setDateCreated(getTime());
+                        oos.writeObject(temp);
+                        temp = new Problem();
+                        temp.setId(getRandomIdProblem());
+                        temp.setName("Q20");
+                        temp.setShortDesc("Graph");
+                        temp.setFullDesc("Q20");
+                        temp.setCategory("Graph");
+                        temp.setWeight(20);
+                        temp.setAuthor("Le Tuan Hung");
                         temp.setDateCreated(getTime());
                         oos.writeObject(temp);
                         oos.flush();
@@ -182,12 +395,12 @@ public class Host {
                 }
         }
 
-        public void initialFile() {
+        private void initialFile() {
                 initialFileProblem();
                 initialFileContestant();
         }
 
-        public void readFileContestant() {
+        private void readFileContestant() {
                 String filename = "contestant.dat";
                 try {
                         File f = new File(filename);
@@ -210,7 +423,7 @@ public class Host {
                 }
         }
 
-        public void readFileProblem() {
+        private void readFileProblem() {
                 String filename = "QBs.dat";
                 try {
                         File f = new File(filename);
@@ -233,7 +446,7 @@ public class Host {
                 }
         }
 
-        public void readFileContest() {
+        private void readFileContest() {
                 String filename = "contest.dat";
                 try {
                         File f = new File(filename);
@@ -256,7 +469,7 @@ public class Host {
                 }
         }
 
-        public void readFile() {
+        private void readFile() {
                 readFileContestant();
                 readFileProblem();
                 readFileContest();
@@ -332,7 +545,7 @@ public class Host {
                 }
         }
 
-        public void loginSystem() {
+        private void loginSystem() {
                 System.out.println("Please login");
                 System.out.print("Enter id: ");
                 String id = sc.nextLine();
@@ -352,7 +565,7 @@ public class Host {
                 }
         }
 
-        public void changeInfo() {
+        private void changeInfo() {
                 System.out.print("Enter Contestant's ID to change info: ");
                 String id = sc.nextLine();
 
@@ -403,7 +616,7 @@ public class Host {
                 } else System.out.println("Change infomation of " + id + " successfully");
         }
 
-        public void addProblem() {
+        private void addProblem() {
                 System.out.println("Please add information");
 
                 boolean flag = true;
@@ -466,7 +679,7 @@ public class Host {
                 }
         }
 
-        public void changeProblem() {
+        private void changeProblem() {
                 System.out.print("Enter Problem's ID to change info: ");
                 String id = sc.nextLine();
 
@@ -529,24 +742,24 @@ public class Host {
                 }
         }
 
-        public void displayProblem() {
+        private void displayProblem() {
                 for (Problem i : listProblems) {
                         System.out.println(i);
                 }
         }
 
-        public void displayContestant() {
+        private void displayContestant() {
                 for (Contestant i : listContestants) {
                         System.out.println(i);
                 }
         }
 
-        public void sortProblem() {
+        private void sortProblem() {
                 Collections.sort(listProblems, Problem.sortByCategory);
                 System.out.println("Sorted by Category");
         }
 
-        public void generateContest() {
+        private void generateContest() {
                 Contest test = new Contest();
                 Random r = new Random();
 
@@ -572,7 +785,7 @@ public class Host {
                 System.out.println("Generate test successfully with ID: " + test.getId());
         }
 
-        public void writeContestToFile(Contest test) {
+        private void writeContestToFile(Contest test) {
                 String filename = "Contest_" + test.getId() + ".txt";
                 try {
                         File f = new File(filename);
@@ -602,7 +815,7 @@ public class Host {
                 }
         }
 
-        public void printContestById() {
+        private void printContestById() {
                 System.out.print("Enter Contest's ID to display: ");
                 String id = sc.nextLine();
                 for (Contest i : listContests) {
@@ -613,7 +826,7 @@ public class Host {
                 }
         }
 
-        public void exit() {
+        private void exit() {
                 System.out.println("Thank you.");
         }
 }
