@@ -1,14 +1,18 @@
 
-public class Contestant extends Participant {
+import java.io.Serializable;
+
+
+public class Contestant extends Participant implements Serializable {
 
         private int rank;
         private double mark;
         private double[] log = new double[5];
+        private static final long serialVersionUID = 1L;
 
         public Contestant() {
         }
 
-        public Contestant(int rank, String id, String name, String email, String phone, String pw) {
+        public Contestant(String id, String name, String email, String phone, String pw, int rank) {
                 super(id, name, email, phone, pw);
                 this.rank = rank;
         }
@@ -71,6 +75,7 @@ public class Contestant extends Participant {
 
         @Override
         public String toString() {
+                super.toString();
                 return "Contestant{" + "rank=" + rank + '}';
         }
 
