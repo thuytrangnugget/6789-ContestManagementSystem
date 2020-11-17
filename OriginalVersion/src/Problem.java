@@ -91,7 +91,7 @@ public class Problem implements Serializable {
 
         @Override
         public String toString() {
-                return "<Problem> | " + "ID " + id + " | NAME " + name + " | CATEGORY " + category + " | WEIGHT " + weight + " | SHORT DESCRIPTION " + shortDesc + " | FULL DESCRIPTION " + fullDesc + " | LAST MODIFIED ON " + dateCreated + " | AUTHOR " + author + " |";
+                return "<Problem> | " + "ID " + String.format("%9s", id) + " | NAME " + String.format("%10s", name) + " | CATEGORY " + String.format("%10s", category) + " | WEIGHT " + String.format("%4s", weight) + " | SHORT DESCRIPTION " + String.format("%10s", shortDesc) + " | FULL DESCRIPTION " + String.format("%10s", fullDesc) + " | LAST MODIFIED ON " + String.format("%15s", dateCreated) + " | AUTHOR " + String.format("%20s", author) + " |";
         }
         
         public static Comparator<Problem> sortByCategory = new Comparator<Problem>() {

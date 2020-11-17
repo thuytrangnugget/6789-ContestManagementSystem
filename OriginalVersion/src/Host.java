@@ -116,13 +116,6 @@ public class Host {
                         temp.setPhone("0123456789");
                         oos.writeObject(temp);
                         temp = new Contestant();
-                        temp.setEmail("AnhNLVHE140139@fpt.edu.vn");
-                        temp.setId(getRandomIdContestant());
-                        temp.setName("Nguyen Le Vu Anh");
-                        temp.setPw("HE140139");
-                        temp.setPhone("0123456789");
-                        oos.writeObject(temp);
-                        temp = new Contestant();
                         temp.setEmail("LongTNHE140627@fpt.edu.vn");
                         temp.setId(getRandomIdContestant());
                         temp.setName("Trinh Ngoc Long");
@@ -521,13 +514,12 @@ public class Host {
                                         printContestById();
                                         break;
                                 case "9":
-                                        //missing
+                                        updateProblemtoFile();
                                         break;
                                 case "10":
                                         displayContestant();
                                         break;
                                 case "0":
-                                        exit();
                                         status = false;
                                         break;
                                 default:
@@ -537,12 +529,9 @@ public class Host {
                         if (!status) {
                                 break;
                         }
-                        System.out.println("Type YES to continue");
-                        choice = sc.nextLine();
-                        if (choice.compareToIgnoreCase("yes") != 0) {
-                                break;
-                        }
                 }
+                
+                System.out.println("Thank you.");
         }
 
         private void loginSystem() {
@@ -573,19 +562,22 @@ public class Host {
                 for (Contestant i : listContestants) {
                         if (id.compareTo(i.getId()) == 0) {
                                 flag = true;
-                                while (true) {                        
-                                        System.out.print("Change name, type no if you dont want to change: ");
+                                while (true) {
+                                        System.out.println("Your current name: " + i.getName());
+                                        System.out.print("Type your new name, or press Enter if you don't want to change: ");
                                         String name = sc.nextLine();
+                                        if (name.compareTo("") == 0) break;
                                         if (!validateName(name))      System.out.println("Wrong format of name, please reinput");
                                         else {
-                                                if (name.compareToIgnoreCase("no") != 0) i.setName(name);
+                                                i.setName(name);
                                                 break;
                                         }
                                 }
-                                while (true) {                        
-                                        System.out.print("Change email, type no if you dont want to change: ");
+                                while (true) {        
+                                        System.out.println("Your current email: " + i.getEmail());
+                                        System.out.print("Type your new email, or press Enter if you don't want to change: ");
                                         String email = sc.nextLine();
-                                        if (email.compareToIgnoreCase("no") == 0) break;
+                                        if (email.compareTo("") == 0) break;
                                         if (!validateEmail(email))      System.out.println("Wrong format of email, please reinput");
                                         else {
                                                 i.setEmail(email);
@@ -593,18 +585,20 @@ public class Host {
                                         }
                                 }
                                 while (true) {
-                                        System.out.print("Change phone number, type no if you dont want to change: ");
+                                        System.out.println("Your current phone number: " + i.getPhone());
+                                        System.out.print("Type your new phone number, or press Enter if you don't want to change: ");
                                         String phone = sc.nextLine();
-                                        if (phone.compareToIgnoreCase("no") == 0) break;
+                                        if (phone.compareTo("") == 0) break;
                                         if (!validatePhoneNumber(phone)) System.out.println("Wrong format of phone number, please reinput");
                                         else {
                                                 i.setPhone(phone);
                                                 break;
                                         }
                                 }
-                                System.out.print("Change password, type no if you dont want to change: ");
+                                System.out.println("Your current password: " + i.getPw());
+                                System.out.print("Type your new password, or press Enter if you don't want to change: ");
                                 String pw = sc.nextLine();
-                                if (pw.compareToIgnoreCase("no") != 0) {
+                                if (pw.compareTo("") != 0) {
                                         i.setPw(pw);
                                 }
                                 break;
@@ -617,37 +611,19 @@ public class Host {
         }
 
         private void addProblem() {
-                System.out.println("Please add information");
-
-                boolean flag = true;
-                System.out.print("Problem's name, type no to cancel ");
+                System.out.println("Please add information");                
+                System.out.print("Problem's name: ");
                 String name = sc.nextLine();
-                if (name.compareToIgnoreCase("no") == 0) {
-                        flag = false;
-                }
-                System.out.print("Problem's short description, type no to cancel ");
+                System.out.print("Problem's short description: ");
                 String shortDesc = sc.nextLine();
-                if (shortDesc.compareToIgnoreCase("no") == 0) {
-                        flag = false;
-                }
-                System.out.print("Problem's long description, type no to cancel ");
+                System.out.print("Problem's long description: ");
                 String longDesc = sc.nextLine();
-                if (longDesc.compareToIgnoreCase("no") == 0) {
-                        flag = false;
-                }
-                System.out.print("Problem's category, type no to cancel ");
+                System.out.print("Problem's category: ");
                 String category = sc.nextLine();
-                if (category.compareToIgnoreCase("no") == 0) {
-                        flag = false;
-                }
                 String weight;
                 while (true) {
-                        System.out.print("Problem's weight, type no to cancel ");
+                        System.out.print("Problem's weight: ");
                         weight = sc.nextLine();
-                        if (weight.compareToIgnoreCase("no") == 0) {
-                                flag = false;
-                                break;
-                        }
                         if (!validateDouble(weight)) {
                                 System.out.println("Wrong format of Double, please reinput");
                         } else {
@@ -656,26 +632,24 @@ public class Host {
                 }
                 String author;
                 while (true) {
-                        System.out.print("Problem's author, type no to cancel ");
+                        System.out.print("Problem's author: ");
                         author = sc.nextLine();
-                        if (author.compareToIgnoreCase("no") == 0) {
-                                flag = false;
-                                break;
-                        }
                         if (!validateName(author)) {
                                 System.out.println("Wrong format of name, please reinput");
                         } else {
                                 break;
                         }
                 }
-
-                if (flag) {
+                
+                String id = getRandomIdProblem();
+                System.out.print("Your problem's ID will be " + id + ". Press Enter to add problem, or type no to cancel.");
+                if (sc.nextLine().compareTo("") == 0) {
                         Problem temp = new Problem(name, category, Double.parseDouble(weight), shortDesc, longDesc, author);
-                        temp.setId(getRandomIdProblem());
+                        temp.setId(id);
                         listProblems.add(temp);
-                        System.out.println("added successfully with Problem's ID: " + temp.getId());
+                        System.out.println("Added successfully with Problem's ID: " + temp.getId());
                 } else {
-                        System.out.println("added fail");
+                        System.out.println("Added fail.");
                 }
         }
 
@@ -687,32 +661,27 @@ public class Host {
                 for (Problem i : listProblems) {
                         if (id.compareTo(i.getId()) == 0) {
                                 flag = true;
-                                System.out.print("Change name, type no if you dont want to change: ");
+                                System.out.println("Current name: " + i.getName());
+                                System.out.print("Type new name, or press Enter if you don't want to change: ");
                                 String name = sc.nextLine();
-                                if (name.compareToIgnoreCase("no") != 0) {
-                                        i.setName(name);
-                                }
-                                System.out.print("Change short description, type no if you dont want to change: ");
+                                if (name.compareTo("") != 0) i.setName(name);
+                                System.out.println("Current short description: " + i.getShortDesc());
+                                System.out.print("Type new short description, or press Enter if you don't want to change: ");
                                 String shortDesc = sc.nextLine();
-                                if (shortDesc.compareToIgnoreCase("no") != 0) {
-                                        i.setShortDesc(shortDesc);
-                                }
-                                System.out.print("Change full description, type no if you dont want to change: ");
+                                if (shortDesc.compareTo("") != 0) i.setShortDesc(shortDesc);
+                                System.out.println("Current full description: " + i.getFullDesc());
+                                System.out.print("Type new full description, or press Enter if you don't want to change: ");
                                 String longDesc = sc.nextLine();
-                                if (longDesc.compareToIgnoreCase("no") != 0) {
-                                        i.setFullDesc(longDesc);
-                                }
-                                System.out.print("Change category, type no if you dont want to change: ");
+                                if (longDesc.compareTo("") != 0) i.setFullDesc(longDesc);
+                                System.out.println("Current category: " + i.getCategory());
+                                System.out.print("Type new category, or press Enter if you dont want to change: ");
                                 String cat = sc.nextLine();
-                                if (cat.compareToIgnoreCase("no") != 0) {
-                                        i.setCategory(cat);
-                                }
+                                if (cat.compareTo("") != 0) i.setCategory(cat);                                
                                 while (true) {
-                                        System.out.print("Change weight, type no if you dont want to change: ");
+                                        System.out.println("Current weight: " + i.getWeight());
+                                        System.out.print("Type new weight, or press Enter if you dont want to change: ");
                                         String weight = sc.nextLine();
-                                        if (weight.compareToIgnoreCase("no") == 0) {
-                                                break;
-                                        }
+                                        if (weight.compareTo("") == 0) break;
                                         if (!validateDouble(weight)) {
                                                 System.out.println("Wrong format of Double, please reinput");
                                         } else {
@@ -721,14 +690,14 @@ public class Host {
                                         }
                                 }
                                 while (true) {
-                                        System.out.print("Change author, type no if you dont want to change: ");
+                                        System.out.println("Current author: " + i.getAuthor());
+                                        System.out.print("Type new author, or press Enter if you dont want to change: ");
                                         String author = sc.nextLine();
+                                        if (author.compareTo("") == 0) break;
                                         if (!validateName(author)) {
                                                 System.out.println("Wrong format of name, please reinput");
                                         } else {
-                                                if (author.compareToIgnoreCase("no") != 0) {
-                                                        i.setAuthor(author);
-                                                }
+                                                i.setAuthor(author);
                                                 break;
                                         }
                                 }
@@ -737,9 +706,9 @@ public class Host {
                         }
                 }
 
-                if (flag == false) {
+                if (!flag) {
                         System.out.println("Can't find Problem with id " + id);
-                }
+                } else System.out.println("Change problem " + id + " successfully.");
         }
 
         private void displayProblem() {
@@ -756,7 +725,7 @@ public class Host {
 
         private void sortProblem() {
                 Collections.sort(listProblems, Problem.sortByCategory);
-                System.out.println("Sorted by Category");
+                System.out.println("Sorted Problems by Category successfully.");
         }
 
         private void generateContest() {
@@ -805,7 +774,7 @@ public class Host {
                         File f = new File(filename);
                         FileOutputStream fos = new FileOutputStream(f);
                         ObjectOutputStream oos = new ObjectOutputStream(fos);
-                        oos.writeObject(test);
+                        oos.writeObject(test); //chua chac no da append test vao
                         oos.flush();
                         oos.close();
                         fos.close();
@@ -818,7 +787,7 @@ public class Host {
         private void printContestById() {
                 System.out.print("Enter Contest's ID to display: ");
                 String id = sc.nextLine();
-                for (Contest i : listContests) {
+                for (Contest i: listContests) {
                         if (i.getId().compareToIgnoreCase(id) == 0) {
                                 i.display();
                                 break;
@@ -826,7 +795,22 @@ public class Host {
                 }
         }
 
-        private void exit() {
-                System.out.println("Thank you.");
+        private void updateProblemtoFile() {
+                String filename = "QBs.dat";
+                try {
+                        File f = new File(filename);
+                        FileOutputStream fos = new FileOutputStream(f);
+                        ObjectOutputStream oos = new ObjectOutputStream(fos);
+                        for (Problem i: listProblems) {
+                                oos.writeObject(i);
+                        }                        
+                        oos.flush();
+                        oos.close();
+                        fos.close();
+                } catch (Exception e) {
+                        e.printStackTrace();
+                        e.getMessage();
+                }
         }
+        
 }
