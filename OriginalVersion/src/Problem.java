@@ -91,13 +91,14 @@ public class Problem implements Serializable {
 
         @Override
         public String toString() {
-                return "<Problem> | " + "ID " + String.format("%9s", id) + " | NAME " + String.format("%10s", name) + " | CATEGORY " + String.format("%10s", category) + " | WEIGHT " + String.format("%4s", weight) + " | SHORT DESCRIPTION " + String.format("%10s", shortDesc) + " | FULL DESCRIPTION " + String.format("%10s", fullDesc) + " | LAST MODIFIED ON " + String.format("%15s", dateCreated) + " | AUTHOR " + String.format("%20s", author) + " |";
+                return "<Problem> | " + "ID " + String.format("%9s", id) + " | NAME " + String.format("%10s", name) + " | CATEGORY " + String.format("%15s", category) + " | WEIGHT " + String.format("%4s", weight) + " | SHORT DESCRIPTION " + String.format("%15s", shortDesc) + " | FULL DESCRIPTION " + String.format("%15s", fullDesc) + " | LAST MODIFIED ON " + String.format("%15s", dateCreated) + " | AUTHOR " + String.format("%20s", author) + " |";
         }
         
-        public static Comparator<Problem> sortByCategory = new Comparator<Problem>() {
+        
+        public static Comparator<Problem> sortByWeight = new Comparator<Problem>() {
                 @Override
                 public int compare(Problem o1, Problem o2) {
-                        return o1.getCategory().compareToIgnoreCase(o2.getCategory());
+                        return (int) (o1.getWeight() - o2.getWeight());
                 }                
         };
 }

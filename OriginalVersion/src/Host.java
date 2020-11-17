@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class Host {
 
         private ArrayList<Contestant> listContestants = new ArrayList<Contestant>();
-        private ArrayList<Problem> listProblems = new ArrayList<Problem>();
+        private ArrayList<CategoryProblem> listProblems = new ArrayList<CategoryProblem>();
         private ArrayList<Contest> listContests = new ArrayList<Contest>();
 
         Scanner sc = new Scanner(System.in);
@@ -426,7 +426,20 @@ public class Host {
                         while (true) {
                                 try {
                                         pX = (Problem) ois.readObject();
-                                        listProblems.add(pX);
+                                        boolean flag = false;
+                                        for (CategoryProblem i: listProblems) {
+                                                if (i.getCategory().compareToIgnoreCase(pX.getCategory()) == 0) {
+                                                        i.add(pX);
+                                                        flag = true;
+                                                        break;
+                                                }
+                                        }
+                                        if (!flag) {
+                                                CategoryProblem temp = new CategoryProblem();
+                                                temp.setCategory(pX.getCategory().toLowerCase());
+                                                temp.add(pX);
+                                                listProblems.add(temp);
+                                        }
                                 } catch (EOFException e) {
                                         break;
                                 }
@@ -647,7 +660,21 @@ public class Host {
                 if (sc.nextLine().compareTo("") == 0) {
                         Problem temp = new Problem(name, category, Double.parseDouble(weight), shortDesc, longDesc, author);
                         temp.setId(id);
-                        listProblems.add(temp);
+                        temp.setDateCreated(getTime());
+                        boolean flag = false;
+                        for (CategoryProblem i : listProblems) {
+                                if (i.getCategory().compareToIgnoreCase(temp.getCategory()) == 0) {
+                                        i.add(temp);
+                                        flag = true;
+                                        break;
+                                }
+                        }
+                        if (!flag) {
+                                CategoryProblem tem = new CategoryProblem();
+                                tem.setCategory(temp.getCategory().toLowerCase());
+                                tem.add(temp);
+                                listProblems.add(tem);
+                        }                       
                         System.out.println("Added successfully with Problem's ID: " + temp.getId());
                 } else {
                         System.out.println("Added fail.");
@@ -657,54 +684,85 @@ public class Host {
         private void changeProblem() {
                 System.out.print("Enter Problem's ID to change info: ");
                 String id = sc.nextLine();
-
                 boolean flag = false;
-                for (Problem i : listProblems) {
-                        if (id.compareTo(i.getId()) == 0) {
-                                flag = true;
-                                System.out.println("Current name: " + i.getName());
-                                System.out.print("Type new name, or press Enter if you don't want to change: ");
-                                String name = sc.nextLine();
-                                if (name.compareTo("") != 0) i.setName(name);
-                                System.out.println("Current short description: " + i.getShortDesc());
-                                System.out.print("Type new short description, or press Enter if you don't want to change: ");
-                                String shortDesc = sc.nextLine();
-                                if (shortDesc.compareTo("") != 0) i.setShortDesc(shortDesc);
-                                System.out.println("Current full description: " + i.getFullDesc());
-                                System.out.print("Type new full description, or press Enter if you don't want to change: ");
-                                String longDesc = sc.nextLine();
-                                if (longDesc.compareTo("") != 0) i.setFullDesc(longDesc);
-                                System.out.println("Current category: " + i.getCategory());
-                                System.out.print("Type new category, or press Enter if you dont want to change: ");
-                                String cat = sc.nextLine();
-                                if (cat.compareTo("") != 0) i.setCategory(cat);                                
-                                while (true) {
-                                        System.out.println("Current weight: " + i.getWeight());
-                                        System.out.print("Type new weight, or press Enter if you dont want to change: ");
-                                        String weight = sc.nextLine();
-                                        if (weight.compareTo("") == 0) break;
-                                        if (!validateDouble(weight)) {
-                                                System.out.println("Wrong format of Double, please reinput");
-                                        } else {
-                                                i.setWeight(Double.parseDouble(weight));
-                                                break;
+                for (CategoryProblem x: listProblems) {
+                        for (int y = 0; y < x.size(); y++) {
+                                Problem i = x.get(y);
+                                if (id.compareTo(i.getId()) == 0) {
+                                        flag = true;
+                                        System.out.println("Current name: " + i.getName());
+                                        System.out.print("Type new name, or press Enter if you don't want to change: ");
+                                        String name = sc.nextLine();
+                                        if (name.compareTo("") != 0) {
+                                                i.setName(name);
                                         }
-                                }
-                                while (true) {
-                                        System.out.println("Current author: " + i.getAuthor());
-                                        System.out.print("Type new author, or press Enter if you dont want to change: ");
-                                        String author = sc.nextLine();
-                                        if (author.compareTo("") == 0) break;
-                                        if (!validateName(author)) {
-                                                System.out.println("Wrong format of name, please reinput");
-                                        } else {
-                                                i.setAuthor(author);
-                                                break;
+                                        System.out.println("Current short description: " + i.getShortDesc());
+                                        System.out.print("Type new short description, or press Enter if you don't want to change: ");
+                                        String shortDesc = sc.nextLine();
+                                        if (shortDesc.compareTo("") != 0) {
+                                                i.setShortDesc(shortDesc);
                                         }
+                                        System.out.println("Current full description: " + i.getFullDesc());
+                                        System.out.print("Type new full description, or press Enter if you don't want to change: ");
+                                        String longDesc = sc.nextLine();
+                                        if (longDesc.compareTo("") != 0) {
+                                                i.setFullDesc(longDesc);
+                                        }
+                                        System.out.println("Current category: " + i.getCategory());
+                                        System.out.print("Type new category, or press Enter if you dont want to change: ");
+                                        String cat = sc.nextLine();
+                                        if (cat.compareTo("") != 0) {
+                                                i.setCategory(cat);
+                                        }
+                                        while (true) {
+                                                System.out.println("Current weight: " + i.getWeight());
+                                                System.out.print("Type new weight, or press Enter if you dont want to change: ");
+                                                String weight = sc.nextLine();
+                                                if (weight.compareTo("") == 0) {
+                                                        break;
+                                                }
+                                                if (!validateDouble(weight)) {
+                                                        System.out.println("Wrong format of Double, please reinput");
+                                                } else {
+                                                        i.setWeight(Double.parseDouble(weight));
+                                                        break;
+                                                }
+                                        }
+                                        while (true) {
+                                                System.out.println("Current author: " + i.getAuthor());
+                                                System.out.print("Type new author, or press Enter if you dont want to change: ");
+                                                String author = sc.nextLine();
+                                                if (author.compareTo("") == 0) {
+                                                        break;
+                                                }
+                                                if (!validateName(author)) {
+                                                        System.out.println("Wrong format of name, please reinput");
+                                                } else {
+                                                        i.setAuthor(author);
+                                                        break;
+                                                }
+                                        }
+                                        i.setDateCreated(getTime());
+                                        if (i.getCategory().compareToIgnoreCase(x.getCategory()) != 0) {
+                                                boolean check = false;
+                                                for (CategoryProblem t1: listProblems) {
+                                                        if (i.getCategory().compareToIgnoreCase(t1.getCategory()) == 0) {
+                                                                t1.add(i);
+                                                                check = true;
+                                                                break;
+                                                        }
+                                                }
+                                                if (!check) {
+                                                        CategoryProblem t2 = new CategoryProblem();
+                                                        t2.setCategory(i.getCategory().toLowerCase());
+                                                        t2.add(i);
+                                                        listProblems.add(t2);
+                                                }
+                                        }
+                                        break;
                                 }
-                                i.setDateCreated(getTime());
-                                break;
                         }
+                        if (flag) break;
                 }
 
                 if (!flag) {
@@ -715,134 +773,68 @@ public class Host {
         private void displayProblem() {
                 while (true) {                    
                         System.out.println("Press Enter to display all Problem, or choose 1 category to display: ");
-                        System.out.println("1. Calculus 2. Geometric 3. Greedy 4. DP 5. Graph");
-                        String category = sc.nextLine();
-                        int count = 0;
-                        switch (category.toLowerCase()) {
-                                case "":
-                                        for (Problem i: listProblems) {
-                                                System.out.println(i);
-                                        }
-                                        System.out.println("There are " + listProblems.size() + " problems.");
-                                        break;
-                                case "1":
-                                        count = 0;
-                                        for (Problem i: listProblems) {
-                                                if (i.getCategory().compareToIgnoreCase("calculus") == 0) {
-                                                        count++;
-                                                        System.out.println(i);
-                                                }
-                                        }
-                                        System.out.println("There are " + count + " calculus problems.");
-                                        break;
-                                case "2":
-                                        count = 0;
-                                        for (Problem i: listProblems) {
-                                                if (i.getCategory().compareToIgnoreCase("geometric") == 0) {
-                                                        count++;
-                                                        System.out.println(i);
-                                                }
-                                        }
-                                        System.out.println("There are " + count + " geometric problems.");
-                                        break;
-                                case "3":
-                                        count = 0;
-                                        for (Problem i: listProblems) {
-                                                if (i.getCategory().compareToIgnoreCase("greedy") == 0) {
-                                                        count++;
-                                                        System.out.println(i);
-                                                }
-                                        }
-                                        System.out.println("There are " + count + " greedy problems.");
-                                        break;
-                                case "4":
-                                        count = 0;
-                                        for (Problem i: listProblems) {
-                                                if (i.getCategory().compareToIgnoreCase("dp") == 0) {
-                                                        count++;
-                                                        System.out.println(i);
-                                                }
-                                        }
-                                        System.out.println("There are " + count + " dp problems.");
-                                        break;
-                                case "5":
-                                        count = 0;
-                                        for (Problem i: listProblems) {
-                                                if (i.getCategory().compareToIgnoreCase("graph") == 0) {
-                                                        count++;
-                                                        System.out.println(i);
-                                                }
-                                        }
-                                        System.out.println("There are " + count + " graph problems.");
-                                        break;
-                                case "calculus":
-                                        count = 0;
-                                        for (Problem i: listProblems) {
-                                                if (i.getCategory().compareToIgnoreCase("calculus") == 0) {
-                                                        count++;
-                                                        System.out.println(i);
-                                                }
-                                        }
-                                        System.out.println("There are " + count + " calculus problems.");
-                                        break;
-                                case "geometric":
-                                        count = 0;
-                                        for (Problem i: listProblems) {
-                                                if (i.getCategory().compareToIgnoreCase("geometric") == 0) {
-                                                        count++;
-                                                        System.out.println(i);
-                                                }
-                                        }
-                                        System.out.println("There are " + count + " geometric problems.");
-                                        break;
-                                case "greedy":
-                                        count = 0;
-                                        for (Problem i: listProblems) {
-                                                if (i.getCategory().compareToIgnoreCase("greedy") == 0) {
-                                                        count++;
-                                                        System.out.println(i);
-                                                }
-                                        }
-                                        System.out.println("There are " + count + " greedy problems.");
-                                        break;
-                                case "dp":
-                                        count = 0;
-                                        for (Problem i: listProblems) {
-                                                if (i.getCategory().compareToIgnoreCase("dp") == 0) {
-                                                        count++;
-                                                        System.out.println(i);
-                                                }
-                                        }
-                                        System.out.println("There are " + count + " dp problems.");
-                                        break;
-                                case "graph":
-                                        count = 0;
-                                        for (Problem i: listProblems) {
-                                                if (i.getCategory().compareToIgnoreCase("graph") == 0) {
-                                                        count++;
-                                                        System.out.println(i);
-                                                }
-                                        }
-                                        System.out.println("There are " + count + " graph problems.");
-                                        break;
-                                default:
-                                        System.out.println("Wrong category.");
-                                        break;
+                        ArrayList<String> listCategory = new ArrayList<String>();
+                        
+                        for (int i = 0; i < listProblems.size(); i++) {
+                                listCategory.add(listProblems.get(i).getCategory().toLowerCase());
+                                System.out.print((i+1) + ". " + listCategory.get(i).toUpperCase() + " ");
                         }
-                        System.out.println("Press Enter to stop displaying Problem, or anything to continue.");
+                        
+                        String category = sc.nextLine();
+                        
+                        boolean flag = false;
+                        
+                        if (category.compareTo("") == 0) {
+                                flag = true;
+                                for (CategoryProblem i: listProblems) {
+                                        i.display();
+                                }
+                        }
+                        
+                        if (!flag && validateDouble(category) && (Integer.parseInt(category) <= listCategory.size()) && (category != "0")) {
+                                category = listCategory.get(Integer.parseInt(category)-1);
+                                flag = true;
+                        }
+                        if (!flag) {
+                                for (int i = 0; i < listCategory.size(); i++) {
+                                        if (category.compareToIgnoreCase(listCategory.get(i)) == 0) {
+                                                flag = true;
+                                                break;
+                                        }
+                                }
+                        }
+                        
+                        if (flag) {
+                                for (CategoryProblem x: listProblems) {
+                                        if (x.getCategory().compareToIgnoreCase(category) == 0) {
+                                                System.out.println("There are " + x.size() + " " + x.getCategory() + " problems.");
+                                                x.display();
+                                                break;
+                                        }                                        
+                                }
+                        }
+                        else {
+                                System.out.println("Wrong category.");
+                        }
+
+                        System.out.print("Press Enter to stop displaying Problem, or anything to continue.");
                         category = sc.nextLine();
                         if (category.compareTo("") == 0) break;
                 }
         }
 
-        private void displayContestant() {
+        private void displayContestant() {                
                 for (Contestant i : listContestants) {
                         System.out.println(i);
                 }
+                System.out.println("There are " + listContestants.size() + " contestants.");
         }
 
         private void sortProblem() {
-                Collections.sort(listProblems, Problem.sortByCategory);
+                Collections.sort(listProblems, CategoryProblem.sortByCategory);
+                for (CategoryProblem i: listProblems) {
+                        Collections.sort(i.getListProblem(), Problem.sortByWeight);
+                }
                 System.out.println("Sorted Problems by Category successfully.");
         }
 
@@ -850,8 +842,8 @@ public class Host {
                 Contest test = new Contest();
                 Random r = new Random();
 
-                while (test.getSize() < 5) {
-                        test.addProblem(listProblems.get(r.nextInt(listProblems.size())));
+                for (CategoryProblem i: listProblems) {
+                        test.addProblem(i.get(r.nextInt(i.size())));
                 }
 
                 test.setId(getRandomIdContest());
@@ -919,8 +911,10 @@ public class Host {
                         File f = new File(filename);
                         FileOutputStream fos = new FileOutputStream(f);
                         ObjectOutputStream oos = new ObjectOutputStream(fos);
-                        for (Problem i: listProblems) {
-                                oos.writeObject(i);
+                        for (CategoryProblem x: listProblems) {
+                                for (int y = 0; y < x.size(); y++) {
+                                        oos.writeObject(x.get(y));
+                                }
                         }                        
                         oos.flush();
                         oos.close();
