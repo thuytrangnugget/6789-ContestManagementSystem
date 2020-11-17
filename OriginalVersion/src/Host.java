@@ -482,7 +482,7 @@ public class Host {
         }
 
         public void run() {
-                initialFile();
+                //initialFile();
                 readFile();
 
                 boolean status = true;
@@ -499,6 +499,7 @@ public class Host {
                         System.out.println("8. Print Contest by ID");
                         System.out.println("9. Save, load, export QBs.dat");
                         System.out.println("10. Display Contestant");
+                        System.out.println("11. Display Category");
                         System.out.println("0. Exit");
                         System.out.print("Your choice: ");
                         String choice = sc.nextLine();
@@ -532,6 +533,9 @@ public class Host {
                                         break;
                                 case "10":
                                         displayContestant();
+                                        break;
+                                case "11":
+                                        displayCategory();
                                         break;
                                 case "0":
                                         status = false;
@@ -823,6 +827,15 @@ public class Host {
                 }
         }
 
+        public void displayCategory() {
+                ArrayList<String> listCategory = new ArrayList<String>();
+                        
+                        for (int i = 0; i < listProblems.size(); i++) {
+                                listCategory.add(listProblems.get(i).getCategory().toLowerCase());
+                                System.out.println((i+1) + ". " + listCategory.get(i).toUpperCase() + ": " + listProblems.get(i).size() + " problems.");
+                        }
+        }
+        
         private void displayContestant() {                
                 for (Contestant i : listContestants) {
                         System.out.println(i);
@@ -923,6 +936,7 @@ public class Host {
                         e.printStackTrace();
                         e.getMessage();
                 }
+                System.out.println("Successfully export all problems to file QBs.dat");
         }
         
 }
