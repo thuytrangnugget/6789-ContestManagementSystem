@@ -351,15 +351,25 @@ public class Host {
                         System.out.println("Login failed.");
                 }
         }
-
+////////////////+****************************************************///////////////////////////////////////////////
         public void changeInfo() {
-                System.out.print("Enter Contestant's ID to change info: ");
-                String id = sc.nextLine();
+               // System.out.print("Enter Contestant's ID to change info: ");
+                  
+               // String id = sc.nextLine();
 
                 boolean flag = false;
                 for (Contestant i : listContestants) {
                         if (id.compareTo(i.getId()) == 0) {
                                 flag = true;
+                                while (true) {                        
+                                        System.out.println("ID:"+getId); 
+                                        String nId = sc.nextLine();
+                                        if (!validateName(name))      System.out.println("Wrong format of name, please reinput");
+                                        else {
+                                                if (name.compareToIgnoreCase("no") != 0) i.setName(name);
+                                                break;
+                                        }
+                                }
                                 while (true) {                        
                                         System.out.print("Change name, type no if you dont want to change: ");
                                         String name = sc.nextLine();
@@ -599,6 +609,7 @@ public class Host {
                         e.printStackTrace();
                         e.getMessage();
                 }
+        
         }
 
         public void printContestById() {
