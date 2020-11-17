@@ -474,6 +474,7 @@ public class Host {
 
                 boolean status = true;
                 while (status) {
+                        System.out.println("");
                         System.out.println("Enter choice (0-10): ");
                         System.out.println("1. Login for Contestant");
                         System.out.println("2. Change info of Contestant");
@@ -712,8 +713,125 @@ public class Host {
         }
 
         private void displayProblem() {
-                for (Problem i : listProblems) {
-                        System.out.println(i);
+                while (true) {                    
+                        System.out.println("Press Enter to display all Problem, or choose 1 category to display: ");
+                        System.out.println("1. Calculus 2. Geometric 3. Greedy 4. DP 5. Graph");
+                        String category = sc.nextLine();
+                        int count = 0;
+                        switch (category.toLowerCase()) {
+                                case "":
+                                        for (Problem i: listProblems) {
+                                                System.out.println(i);
+                                        }
+                                        System.out.println("There are " + listProblems.size() + " problems.");
+                                        break;
+                                case "1":
+                                        count = 0;
+                                        for (Problem i: listProblems) {
+                                                if (i.getCategory().compareToIgnoreCase("calculus") == 0) {
+                                                        count++;
+                                                        System.out.println(i);
+                                                }
+                                        }
+                                        System.out.println("There are " + count + " calculus problems.");
+                                        break;
+                                case "2":
+                                        count = 0;
+                                        for (Problem i: listProblems) {
+                                                if (i.getCategory().compareToIgnoreCase("geometric") == 0) {
+                                                        count++;
+                                                        System.out.println(i);
+                                                }
+                                        }
+                                        System.out.println("There are " + count + " geometric problems.");
+                                        break;
+                                case "3":
+                                        count = 0;
+                                        for (Problem i: listProblems) {
+                                                if (i.getCategory().compareToIgnoreCase("greedy") == 0) {
+                                                        count++;
+                                                        System.out.println(i);
+                                                }
+                                        }
+                                        System.out.println("There are " + count + " greedy problems.");
+                                        break;
+                                case "4":
+                                        count = 0;
+                                        for (Problem i: listProblems) {
+                                                if (i.getCategory().compareToIgnoreCase("dp") == 0) {
+                                                        count++;
+                                                        System.out.println(i);
+                                                }
+                                        }
+                                        System.out.println("There are " + count + " dp problems.");
+                                        break;
+                                case "5":
+                                        count = 0;
+                                        for (Problem i: listProblems) {
+                                                if (i.getCategory().compareToIgnoreCase("graph") == 0) {
+                                                        count++;
+                                                        System.out.println(i);
+                                                }
+                                        }
+                                        System.out.println("There are " + count + " graph problems.");
+                                        break;
+                                case "calculus":
+                                        count = 0;
+                                        for (Problem i: listProblems) {
+                                                if (i.getCategory().compareToIgnoreCase("calculus") == 0) {
+                                                        count++;
+                                                        System.out.println(i);
+                                                }
+                                        }
+                                        System.out.println("There are " + count + " calculus problems.");
+                                        break;
+                                case "geometric":
+                                        count = 0;
+                                        for (Problem i: listProblems) {
+                                                if (i.getCategory().compareToIgnoreCase("geometric") == 0) {
+                                                        count++;
+                                                        System.out.println(i);
+                                                }
+                                        }
+                                        System.out.println("There are " + count + " geometric problems.");
+                                        break;
+                                case "greedy":
+                                        count = 0;
+                                        for (Problem i: listProblems) {
+                                                if (i.getCategory().compareToIgnoreCase("greedy") == 0) {
+                                                        count++;
+                                                        System.out.println(i);
+                                                }
+                                        }
+                                        System.out.println("There are " + count + " greedy problems.");
+                                        break;
+                                case "dp":
+                                        count = 0;
+                                        for (Problem i: listProblems) {
+                                                if (i.getCategory().compareToIgnoreCase("dp") == 0) {
+                                                        count++;
+                                                        System.out.println(i);
+                                                }
+                                        }
+                                        System.out.println("There are " + count + " dp problems.");
+                                        break;
+                                case "graph":
+                                        count = 0;
+                                        for (Problem i: listProblems) {
+                                                if (i.getCategory().compareToIgnoreCase("graph") == 0) {
+                                                        count++;
+                                                        System.out.println(i);
+                                                }
+                                        }
+                                        System.out.println("There are " + count + " graph problems.");
+                                        break;
+                                default:
+                                        System.out.println("Wrong category.");
+                                        break;
+                        }
+                        System.out.println("Press Enter to stop displaying Problem, or anything to continue.");
+                        category = sc.nextLine();
+                        if (category.compareTo("") == 0) break;
                 }
         }
 
