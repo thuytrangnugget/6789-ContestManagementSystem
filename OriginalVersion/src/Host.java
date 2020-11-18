@@ -18,9 +18,10 @@ public class Host {
         private ArrayList<CategoryProblem> listProblems = new ArrayList<CategoryProblem>();
         private ArrayList<Contest> listContests = new ArrayList<Contest>();
 
-        Scanner sc = new Scanner(System.in);
+        private Scanner sc = new Scanner(System.in);
 
         private boolean validateName(String s) {
+                if (s.length() > 20) return false;
                 for (int i = 0; i < s.length(); i++) {
                         if (!Character.isLetter(s.charAt(i)) && s.charAt(i) != ' ') {
                                 return false;
@@ -30,7 +31,7 @@ public class Host {
         }
 
         private boolean validateEmail(String s) {
-                if (!s.contains("@") || s.contains(" ") || !Character.isLetter(s.charAt(0)) || !Character.isLetter(s.charAt(s.length()-1))) {
+                if (!s.contains("@") || s.contains(" ") || !Character.isLetter(s.charAt(0)) || !Character.isLetter(s.charAt(s.length()-1)) || s.length() >28) {
                         return false;
                 }
                 for (int i = 0; i < s.length(); i++) {
@@ -545,18 +546,26 @@ public class Host {
                                         break;
                         }
                         if (!status) {
+                                updateContestToFile();
+                                updateContestantToFile();
+                                updateProblemtoFile();
                                 break;
                         }
                 }
                 
                 System.out.println("Thank you.");
         }
-
+        
         private void loginSystem() {
                 System.out.println("Please login");
-                System.out.print("Enter id: ");
+                System.out.print("Enter ID, or press Enter if you forget the ID ");
                 String id = sc.nextLine();
-                System.out.print("Enter pw: ");
+                if (id.compareTo("") == 0) {
+                        displayContestant();
+                        System.out.print("Enter ID: ");
+                        id = sc.nextLine();
+                }
+                System.out.print("Enter PASSWORD: ");
                 String pw = sc.nextLine();
 
                 boolean flag = false;
@@ -573,9 +582,13 @@ public class Host {
         }
 
         private void changeInfo() {
-                System.out.print("Enter Contestant's ID to change info: ");
+                System.out.print("Enter Contestant's ID to change info, or press Enter if you forget the ID:  ");
                 String id = sc.nextLine();
-
+                if (id.compareTo("") == 0) {
+                        displayContestant();
+                        System.out.print("Enter ID: ");
+                        id = sc.nextLine();
+                }
                 boolean flag = false;
                 for (Contestant i : listContestants) {
                         if (id.compareTo(i.getId()) == 0) {
@@ -686,8 +699,13 @@ public class Host {
         }
 
         private void changeProblem() {
-                System.out.print("Enter Problem's ID to change info: ");
+                System.out.print("Enter Problem's ID to change info, or press Enter if you forget the ID:  ");
                 String id = sc.nextLine();
+                if (id.compareTo("") == 0) {
+                        for (CategoryProblem x: listProblems) x.display();
+                        System.out.print("Enter Problem's ID to change info: ");
+                        id = sc.nextLine();
+                }                 
                 boolean flag = false;
                 for (CategoryProblem x: listProblems) {
                         for (int y = 0; y < x.size(); y++) {
@@ -827,7 +845,7 @@ public class Host {
                 }
         }
 
-        public void displayCategory() {
+        private void displayCategory() {
                 ArrayList<String> listCategory = new ArrayList<String>();
                         
                         for (int i = 0; i < listProblems.size(); i++) {
@@ -891,31 +909,25 @@ public class Host {
                         e.printStackTrace();
                         e.getMessage();
                 }
-
-                filename = "contest.dat";
-                try {
-                        File f = new File(filename);
-                        FileOutputStream fos = new FileOutputStream(f);
-                        ObjectOutputStream oos = new ObjectOutputStream(fos);
-                        oos.writeObject(test); //chua chac no da append test vao
-                        oos.flush();
-                        oos.close();
-                        fos.close();
-                } catch (Exception e) {
-                        e.printStackTrace();
-                        e.getMessage();
-                }
         }
 
         private void printContestById() {
+                System.out.println("There are " + listContests.size() + " available: ");
+                for (Contest i: listContests) {
+                        System.out.println("ID " + i.getId() + ", created by " + i.getAuthor() + " on " + i.getDate() + ". Maximum point: " + i.getMaxMark());
+                }
                 System.out.print("Enter Contest's ID to display: ");
                 String id = sc.nextLine();
+                
+                boolean flag = false;
                 for (Contest i: listContests) {
                         if (i.getId().compareToIgnoreCase(id) == 0) {
                                 i.display();
+                                flag = true;
                                 break;
                         }
                 }
+                if (!flag) System.out.println("There is no contest with ID " + id);
         }
 
         private void updateProblemtoFile() {
@@ -936,7 +948,42 @@ public class Host {
                         e.printStackTrace();
                         e.getMessage();
                 }
-                System.out.println("Successfully export all problems to file QBs.dat");
+                //System.out.println("Successfully export all problems to file QBs.dat");
         }
         
+        private void updateContestantToFile() {
+                String filename = "contestant.dat";
+                try {
+                        File f = new File(filename);
+                        FileOutputStream fos = new FileOutputStream(f);
+                        ObjectOutputStream oos = new ObjectOutputStream(fos);
+                        for (Contestant i: listContestants) {
+                                oos.writeObject(i);
+                        }                       
+                        oos.flush();
+                        oos.close();
+                        fos.close();
+                } catch (Exception e) {
+                        e.printStackTrace();
+                        e.getMessage();
+                }
+        }
+        
+        private void updateContestToFile() {
+                String filename = "contest.dat";
+                try {
+                        File f = new File(filename);
+                        FileOutputStream fos = new FileOutputStream(f);
+                        ObjectOutputStream oos = new ObjectOutputStream(fos);
+                        for (Contest i: listContests) {
+                                oos.writeObject(i);
+                        }                       
+                        oos.flush();
+                        oos.close();
+                        fos.close();
+                } catch (Exception e) {
+                        e.printStackTrace();
+                        e.getMessage();
+                }
+        }
 }

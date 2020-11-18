@@ -29,6 +29,7 @@ public class Contest implements Serializable {
                 System.out.println("Contest's date: " + date);
                 System.out.println("Contest's author: " + author);
                 System.out.println("Contest's maxMark: " + maxMark);
+                System.out.println("There are " + listProblems.size() + " questions in the test.");
                 System.out.println("Contest's questions: ");
                 for (Problem i : listProblems) {
                         System.out.println(i);
